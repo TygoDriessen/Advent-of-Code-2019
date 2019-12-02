@@ -10,8 +10,13 @@
   "author": "Tygo Driessen",
   "license": "ISC",
   "devDependencies": {
+    "@types/inquirer": "^6.5.0",
+    "@types/node": "^12.12.14",
     "nodemon": "^2.0.1",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "inquirer": "^7.0.0"
   }
 }
