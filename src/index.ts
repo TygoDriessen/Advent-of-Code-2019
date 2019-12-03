@@ -1,4 +1,3 @@
-import { Day1 } from "./Day 1";
+import { AdventOfCode } from "./AdventOfCode";
 
-const day1 = new Day1();
-day1.start();
+new AdventOfCode();
