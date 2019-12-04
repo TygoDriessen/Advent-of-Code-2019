@@ -1,34 +1,14 @@
-import fs from "fs";
-import inquirer from "inquirer";
-import { AdventOfCode } from "../AdventOfCode";
+import { BaseDay } from "../BaseDay";
 
-export class Day1 {
-  constructor(private adventOfCode: AdventOfCode) {}
+export class Day1 extends BaseDay {
+  protected async Part1(): Promise<void> {
+    const sum1 = this.moduleFuelRequirements(this.input);
+    console.log(`Result: ${sum1}`);
+  }
 
-  public async start() {
-    const prompt = await inquirer.prompt([
-      {
-        name: "part",
-        type: "list",
-        message: "Choose which part of the assignment:",
-        choices: ["Part 1", "Part 2"]
-      }
-    ]);
-    // Read the lines from the input.txt file
-    const lines = Day1.readLines("input.txt");
-    switch (prompt.part) {
-      case "Part 1":
-        // Calculate Part 1
-        const sum1 = this.moduleFuelRequirements(lines);
-        console.log(sum1);
-        await this.adventOfCode.start();
-        break;
-      case "Part 2":
-        // Calculate Part 2
-        const sum2 = this.totalFuelRequirement(lines);
-        console.log(sum2);
-        await this.adventOfCode.start();
-    }
+  protected async Part2(): Promise<void> {
+    const sum2 = this.totalFuelRequirement(this.input);
+    console.log(`Result: ${sum2}`);
   }
 
   private moduleFuelRequirements(lines: number[]): number {
@@ -65,11 +45,9 @@ export class Day1 {
     }
   }
 
-  private static readLines(file: string): number[] {
-    const lines = fs
-      .readFileSync(`${__dirname}/${file}`, "utf8")
-      .split("\r\n")
-      .filter(line => line.length > 0);
-    return lines.map(line => Number(line));
+  private get input(): number[] {
+    return this.readInput(__dirname + "/input.txt", "\r\n")
+      .filter(e => e.length > 0)
+      .map(e => Number(e));
   }
 }

@@ -1,17 +1,16 @@
-import { AdventOfCode } from "../AdventOfCode";
-import * as fs from "fs";
+import { BaseDay } from "../BaseDay";
 
-export class Day2 {
-  constructor(private adventOfCode: AdventOfCode) {}
-
-  public async start() {
-    const input = Day2.readInput("input.txt");
-    const result = this.programAlarm(input);
-    console.log(`Value at position 0 is: ${result[0]}`);
-    await this.adventOfCode.start();
+export class Day2 extends BaseDay {
+  protected async Part1(): Promise<void> {
+    const result = Day2.programAlarm(this.input);
+    console.log(`Value at index 0 is: ${result[0]}`);
   }
 
-  private programAlarm(opcode: number[]) {
+  protected async Part2(): Promise<void> {
+    console.error("Not implemented!");
+  }
+
+  private static programAlarm(opcode: number[]) {
     opcode[1] = 12;
     opcode[2] = 2;
     return Day2.process(opcode);
@@ -26,7 +25,6 @@ export class Day2 {
         const b = opcode[opcode[i + 2]];
         const position = opcode[i + 3];
 
-        // TODO: to switch?
         if (code === 1) {
           newOpcode[position] = Day2.add(a, b);
           skipCount = 3;
@@ -51,10 +49,7 @@ export class Day2 {
     return a * b;
   }
 
-  private static readInput(file: string): number[] {
-    return fs
-      .readFileSync(`${__dirname}/${file}`, "utf8")
-      .split(",")
-      .map(entry => Number(entry));
+  private get input(): number[] {
+    return this.readInput(__dirname + "/input.txt", ",").map(e => Number(e));
   }
 }
