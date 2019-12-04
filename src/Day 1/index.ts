@@ -1,8 +1,9 @@
 import fs from "fs";
 import inquirer from "inquirer";
+import { AdventOfCode } from "../AdventOfCode";
 
 export class Day1 {
-  // TODO: local variable?
+  constructor(private adventOfCode: AdventOfCode) {}
 
   public async start() {
     const prompt = await inquirer.prompt([
@@ -20,11 +21,13 @@ export class Day1 {
         // Calculate Part 1
         const sum1 = this.moduleFuelRequirements(lines);
         console.log(sum1);
+        await this.adventOfCode.start();
         break;
       case "Part 2":
         // Calculate Part 2
         const sum2 = this.totalFuelRequirement(lines);
         console.log(sum2);
+        await this.adventOfCode.start();
     }
   }
 

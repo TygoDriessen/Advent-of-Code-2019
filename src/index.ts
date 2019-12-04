@@ -1,3 +1,4 @@
 import { AdventOfCode } from "./AdventOfCode";
 
-new AdventOfCode();
+const adventOfCode = new AdventOfCode();
+adventOfCode.start();
