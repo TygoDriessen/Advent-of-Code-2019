@@ -7,16 +7,48 @@ export class Day2 extends BaseDay {
   }
 
   protected async Part2(): Promise<void> {
-    console.error("Not implemented!");
+    const { noun, verb } = Day2.gravityAssist(this.input);
+    const result = 100 * noun + verb;
+    console.log(`result:                  100 * ${noun} + ${verb} = ${result}`);
   }
 
-  private static programAlarm(opcode: number[]) {
-    opcode[1] = 12;
-    opcode[2] = 2;
-    return Day2.process(opcode);
+  private static programAlarm(opcode: number[]): number[] {
+    return Day2.process(opcode, 12, 2);
   }
 
-  private static process(opcode: number[]): number[] {
+  // TODO: Rework function
+  private static gravityAssist(
+    opcode: number[]
+  ): { noun: number; verb: number } {
+    let output = null;
+    let noun = 0;
+    let verb = 0;
+
+    while (verb !== 100) {
+      const opcodeCopy = [...opcode];
+      const result = Day2.process(opcodeCopy, noun, verb);
+      if (result[0] === 19690720) break;
+      if (noun < 99) {
+        noun++;
+      } else {
+        noun = 0;
+        verb++;
+      }
+      output = result[0];
+    }
+    return { noun, verb };
+  }
+
+  // TODO: Change to while loop?
+  private static process(
+    opcode: number[],
+    noun?: number,
+    verb?: number
+  ): number[] {
+    if (noun && verb) {
+      opcode[1] = noun;
+      opcode[2] = verb;
+    }
     const newOpcode = opcode;
     let skipCount = 0;
     for (let [i, code] of opcode.entries()) {
