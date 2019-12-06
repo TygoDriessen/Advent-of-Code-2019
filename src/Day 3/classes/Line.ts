@@ -36,6 +36,15 @@ export class Line {
 
     if (!(0 < lambda && lambda < 1 && (0 < gamma && gamma < 1))) return; // Lines do not intersect
 
-    return new Point(x, y);
+    const point = new Point(x, y);
+
+    // Calculate steps
+    const line1Steps =
+      line1.start.steps + Point.calculateSteps(point, line1.start);
+    const line2Steps =
+      line2.start.steps + Point.calculateSteps(point, line2.start);
+    point.steps = line1Steps + line2Steps;
+
+    return point;
   }
 }

@@ -12,17 +12,28 @@ export class Day3 extends BaseDay {
     const wire2 = new Wire(wire2Points);
     // Calculate the shortest distance
     const intersectingPoints = Wire.compareWires(wire1, wire2);
-    const shortestDistance = Day3.calculateShortestDistance(intersectingPoints);
+    const shortestDistance = Day3.calculateDistance(intersectingPoints);
     console.log(`The shortest distance is: ${shortestDistance}`);
   }
 
-  protected async Part2(): Promise<void> {}
+  protected async Part2(): Promise<void> {
+    // Create wire 1
+    const wire1Points = Wire.calculateWire(this.input[0]);
+    const wire1 = new Wire(wire1Points);
+    // Create wire 2
+    const wire2Points = Wire.calculateWire(this.input[1]);
+    const wire2 = new Wire(wire2Points);
+    // Calculate the shortest distance
+    const intersectingPoints = Wire.compareWires(wire1, wire2);
+    const fewestSteps = Day3.calculateFewestSteps(intersectingPoints);
+    console.log(`Intersection with fewest steps is: ${fewestSteps} steps away`);
+  }
 
   /**
    * Calculates the shortest distance from a list of points
    * @param points
    */
-  private static calculateShortestDistance(points: Point[]): number {
+  private static calculateDistance(points: Point[]): number {
     let shortestDistance: number;
     for (let point of points) {
       const distance = Point.manhattanDistance(new Point(0, 0), point);
@@ -31,6 +42,19 @@ export class Day3 extends BaseDay {
     }
 
     return shortestDistance;
+  }
+
+  /**
+   * Calculate the fewest steps to a intersection
+   * @param points
+   */
+  private static calculateFewestSteps(points: Point[]): number {
+    let fewestSteps: number;
+    for (let point of points) {
+      if (!fewestSteps) fewestSteps = point.steps; // Set first fewest steps
+      if (point.steps < fewestSteps) fewestSteps = point.steps; // Set new fewest steps
+    }
+    return fewestSteps;
   }
 
   /**

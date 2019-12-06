@@ -20,31 +20,47 @@ export class Wire {
    * @param directions
    */
   public static calculateWire(directions: string[]): Point[] {
-    const wire: Point[] = [new Point(0, 0)];
+    const wire: Point[] = [new Point(0, 0, 0)];
 
     for (let d of directions) {
       const previousPoint: Point = wire[wire.length - 1];
       const direction = Wire.getDirection(d);
       switch (direction.direction) {
         case "U":
-          const ux = previousPoint.x;
-          const uy = previousPoint.y + direction.value;
-          wire.push(new Point(ux, uy));
+          wire.push(
+            new Point(
+              previousPoint.x,
+              previousPoint.y + direction.value,
+              previousPoint.steps + direction.value
+            )
+          );
           break;
         case "R":
-          const rx = previousPoint.x + direction.value;
-          const ry = previousPoint.y;
-          wire.push(new Point(rx, ry));
+          wire.push(
+            new Point(
+              previousPoint.x + direction.value,
+              previousPoint.y,
+              previousPoint.steps + direction.value
+            )
+          );
           break;
         case "D":
-          const dx = previousPoint.x;
-          const dy = previousPoint.y - direction.value;
-          wire.push(new Point(dx, dy));
+          wire.push(
+            new Point(
+              previousPoint.x,
+              previousPoint.y - direction.value,
+              previousPoint.steps + direction.value
+            )
+          );
           break;
         case "L":
-          const lx = previousPoint.x - direction.value;
-          const ly = previousPoint.y;
-          wire.push(new Point(lx, ly));
+          wire.push(
+            new Point(
+              previousPoint.x - direction.value,
+              previousPoint.y,
+              previousPoint.steps + direction.value
+            )
+          );
           break;
       }
     }
