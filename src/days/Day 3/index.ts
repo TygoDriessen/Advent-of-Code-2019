@@ -1,8 +1,8 @@
-import { BaseDay } from "../BaseDay";
+import { BaseDay } from "../../BaseDay";
 import { Wire } from "./classes/Wire";
 import { Point } from "./classes/Point";
 
-export class Day3 extends BaseDay {
+export default class Day3 extends BaseDay {
   protected async Part1(): Promise<void> {
     // Create wire 1
     const wire1Points = Wire.calculateWire(this.input[0]);

@@ -1,6 +1,6 @@
-import { BaseDay } from "../BaseDay";
+import { BaseDay } from "../../BaseDay";
 
-export class Day1 extends BaseDay {
+export default class Day1 extends BaseDay {
   protected async Part1(): Promise<void> {
     const sum1 = this.moduleFuelRequirements(this.input);
     console.log(`Result: ${sum1}`);

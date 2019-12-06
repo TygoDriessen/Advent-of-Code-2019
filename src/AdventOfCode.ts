@@ -1,33 +1,63 @@
 import inquirer from "inquirer";
-
-import { Day1 } from "./Day 1";
-import { Day2 } from "./Day 2";
-import { Day3 } from "./Day 3";
+import fs from "fs";
+import path from "path";
+import { BaseDay } from "./BaseDay";
 
 export class AdventOfCode {
-  public async start() {
-    const prompt = await inquirer.prompt([
-      {
-        name: "day",
-        type: "list",
-        message: "Choose a day:",
-        choices: ["Day 1", "Day 2", "Day 3"]
-      }
-    ]);
+  private days: Map<string, BaseDay> = new Map<string, BaseDay>();
 
-    switch (prompt.day) {
-      case "Day 1":
-        const day1 = new Day1(this);
-        await day1.start();
-        break;
-      case "Day 2":
-        const day2 = new Day2(this);
-        await day2.start();
-        break;
-      case "Day 3":
-        const day3 = new Day3(this);
-        await day3.start();
-        break;
+  public async start() {
+    if (this.days.size > 0) {
+      // Prompt for the desired date
+      const prompt = await inquirer.prompt([
+        {
+          name: "day",
+          type: "list",
+          message: "Choose a day:",
+          choices: Array.from(this.days.keys())
+        }
+      ]);
+      // Call the selected date
+      const day = this.days.get(prompt.day);
+      if (day) await day.start();
+    } else {
+      this.loadDays()
+        .then(() => {
+          console.log("Days loaded");
+          this.start();
+        })
+        .catch(err => {
+          throw console.error(err);
+        });
+    }
+  }
+
+  private async loadDays(): Promise<void> {
+    try {
+      const daysPath = path.join(__dirname, "days");
+      const days = await fs.readdirSync(daysPath);
+
+      days.map(day => {
+        const dayPath = path.join(daysPath, day);
+        const isDir = fs.lstatSync(dayPath);
+
+        if (isDir) {
+          this.loadDay(day, dayPath);
+        }
+      });
+    } catch (e) {
+      throw console.error(e);
+    }
+  }
+
+  private loadDay(name: string, dayPath: string): void {
+    try {
+      // Require the day
+      let day = require(dayPath).default;
+      day = new day(this);
+      this.days.set(name, day);
+    } catch (e) {
+      throw console.error(e);
     }
   }
 }

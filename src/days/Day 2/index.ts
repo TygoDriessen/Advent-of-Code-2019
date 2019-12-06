@@ -1,6 +1,6 @@
-import { BaseDay } from "../BaseDay";
+import { BaseDay } from "../../BaseDay";
 
-export class Day2 extends BaseDay {
+export default class Day2 extends BaseDay {
   protected async Part1(): Promise<void> {
     const result = Day2.programAlarm(this.input);
     console.log(`Value at index 0 is: ${result[0]}`);
