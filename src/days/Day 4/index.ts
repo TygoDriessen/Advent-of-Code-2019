@@ -11,6 +11,10 @@ export default class Day4 extends BaseDay {
   }
 
   protected async Part2(): Promise<void> {
-    return undefined;
+    const passwords = Password.generatePasswords(245182, 790572).filter(
+      password =>
+        Password.hasDoubleDigitsV2(password) && Password.hasNoDecrease(password)
+    );
+    console.log(`Number of possible passwords: ${passwords.length}`);
   }
 }
